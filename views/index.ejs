@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Bughouse</title>
+
+
+  <!-- Mobile specific metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font -->
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/custom.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <% if ('production' !== process.env.NODE_ENV) { %>
+<!--     <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/skeleton.css" />
+    <link rel="stylesheet" href="css/custom.css" /> -->
+  <% } else { %>
+    <!-- <link rel="stylesheet" href="css/style.min.css" /> -->
+  <% } %>
+</head>
+
+<body>
+  <% if ('production' !== process.env.NODE_ENV) { %>
+    <script src="js/bundle.js"></script>
+  <% } else { %>
+    <script src="js/bundle.min.js"></script>
+  <% } %>
+  <section>
+    Board1
+    <div id='board1' class='chessground small blue cburnett'></div>
+  </section>
+  <section>
+    Board2
+
+    <div id='board2' class='chessground small blue cburnett'></div>
+  </section>
+
+</body>
+
+</html>
