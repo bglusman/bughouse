@@ -15,18 +15,20 @@ function chessToDests(chess) {
   return dests;
 }
 
-var onMove = function(orig, dest) {
-  chess.move({from: orig, to: dest});
-  ground.set({
-    turnColor: chessToColor(chess),
-    movable: {
-      color: chessToColor(chess),
-      dests: chessToDests(chess)
-    }
-  });
+var onMove = function(chess, var_name) {
+  return function(orig, dest){
+    chess.move({from: orig, to: dest});
+    eval(var_name).set({
+      turnColor: chessToColor(chess),
+      movable: {
+        color: chessToColor(chess),
+        dests: chessToDests(chess)
+      }
+    });
+  }
 }
 
-function getBoardOptions(chess, orientation, viewOnly) {
+function getBoardOptions(chess, var_name, orientation, viewOnly) {
   return {
     orientation: orientation,
     viewOnly: viewOnly,
@@ -40,7 +42,7 @@ function getBoardOptions(chess, orientation, viewOnly) {
       premove: true,
       dests: chessToDests(chess),
       events: {
-        after: onMove
+        after: onMove(chess, var_name)
       }
     },
     drawable: {
@@ -52,6 +54,6 @@ function getBoardOptions(chess, orientation, viewOnly) {
 domReady(function(){
   game1 = new chessFactory.Chess(undefined, true)
   game2 = new chessFactory.Chess(undefined, true)
-  board1 = boardFactory(document.getElementById('board1'), getBoardOptions(game1, 'white', false))
-  board2 = boardFactory(document.getElementById('board2'), getBoardOptions(game2, 'black', true))
+  board1 = boardFactory(document.getElementById('board1'), getBoardOptions(game1, 'board1', 'white', false))
+  board2 = boardFactory(document.getElementById('board2'), getBoardOptions(game2, 'board2', 'black', true))
 });
