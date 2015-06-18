@@ -1,3 +1,47 @@
+.spare-piece {
+  height: 30px;
+  width: 30px;
+  float: left;
+}
+
+.spare-piece.rook.white {
+  background-image: url(images/pieces/cburnett/wR.svg);
+}
+.spare-piece.queen.white {
+  background-image: url(images/pieces/cburnett/wQ.svg);
+}
+.spare-piece.knight.white {
+  background-image: url(images/pieces/cburnett/wN.svg);
+}
+.spare-piece.king.white {
+  background-image: url(images/pieces/cburnett/wK.svg);
+}
+.spare-piece.pawn.white {
+  background-image: url(images/pieces/cburnett/wP.svg);
+}
+.spare-piece.bishop.white {
+  background-image: url(images/pieces/cburnett/wB.svg);
+}
+
+.spare-piece.rook.black {
+  background-image: url(images/pieces/cburnett/bR.svg);
+}
+.spare-piece.queen.black {
+  background-image: url(images/pieces/cburnett/bQ.svg);
+}
+.spare-piece.king.black {
+  background-image: url(images/pieces/cburnett/bK.svg);
+}
+.spare-piece.knight.black {
+  background-image: url(images/pieces/cburnett/bN.svg);
+}
+.spare-piece.pawn.black {
+  background-image: url(images/pieces/cburnett/bP.svg);
+}
+.spare-piece.bishop.black {
+  background-image: url(images/pieces/cburnett/bB.svg);
+}
+
 /*
  * Board
  */
