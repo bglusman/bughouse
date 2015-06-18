@@ -13,6 +13,24 @@ var pieceMap = {
   q: 'queen',
   k: 'king'
 }
+var KEYCODE_K = 75, KEYCODE_k = 107, KEYCODE_n = 100, KEYCODE_N = 78, KEYCODE_Q = 81, KEYCODE_q = 113
+$(document).on('keydown', function(event){
+  switch (event.which) {
+    case KEYCODE_k :
+    case KEYCODE_K :
+    case KEYCODE_n :
+    case KEYCODE_N :
+      $('.promotion').text('knight')
+      promotion = 'n'
+      break
+    case KEYCODE_q :
+    case KEYCODE_Q :
+    $('.promotion').text('queen')
+      promotion = 'q'
+  }
+})
+
+
 function getColor (color) {
   return color === 'w' ? 'white' : 'black'
 }
@@ -34,13 +52,6 @@ var makeOnMove = function (chess, white_capture_destination, black_capture_desti
   var game_name = 'game' + game_num
   return function(orig, dest){
     var board = eval(var_name)
-    if (dest.match(/8/) || dest.match(/1/)){
-      $(document).one('keydown', function(event){//sigh, not working
-        switch (event.which) {
-          case 75: promotion = 'n'
-        }
-      })
-    }
 
     result = chess.move({from: orig, to: dest, promotion: promotion})
     // console.log(result)
