@@ -1,8 +1,8 @@
 var chessFactory = require('./chess_js')
 var domReady = require('domready')
 var boardFactory = require('chessground')
-var jQuery = require('jQuery')
-var $ = jQuery
+var $ = jQuery = require('../jquery')
+require('../jquery-ui')
 var promotion = 'q'
 require('../Object.observe.poly')
 var pieceMap = {
