@@ -13,6 +13,14 @@ var pieceMap = {
   q: 'queen',
   k: 'king'
 }
+var invertPieceMap = {
+  pawn: 'p',
+  knight: 'n',
+  bishop: 'b',
+  rook: 'r',
+  queen: 'q',
+  king: 'k'
+}
 var KEYCODE_K = 75, KEYCODE_k = 107, KEYCODE_n = 100, KEYCODE_N = 78, KEYCODE_Q = 81, KEYCODE_q = 113
 $(document).on('keydown', function(event){
   switch (event.which) {
@@ -29,6 +37,12 @@ $(document).on('keydown', function(event){
       promotion = 'q'
   }
 })
+
+function set_turn(game, color) {
+    var tokens = game.fen().split(' ');
+    tokens[1] = color;
+    game.load(tokens.join(' '));
+}
 
 
 function getColor (color) {
@@ -54,12 +68,10 @@ var makeOnMove = function (chess, white_capture_destination, black_capture_desti
     var board = eval(var_name)
 
     result = chess.move({from: orig, to: dest, promotion: promotion})
-    // console.log(result)
     if (result && result.promotion) {
       var promotion_details = {color: getColor(result.color), role: pieceMap[promotion]}
       var object = {}
       object[dest] = promotion_details
-      // debugger
       board.setPieces(object);
       //TODO: mark pawn for demotion on capture
     }
@@ -72,9 +84,11 @@ var makeOnMove = function (chess, white_capture_destination, black_capture_desti
       }
     });
     if(result && result.color == "b"){
-
+      $('.' + game_name + ' .spare-piece.white' ).draggable()
+      $('.' + game_name + ' .spare-piece.black' ).draggable('destroy')
     } else {
-
+      $('.' + game_name + ' .spare-piece.black' ).draggable()
+      $('.' + game_name + ' .spare-piece.white' ).draggable('destroy')
     }
 
     if (result && result.captured && result.color == "b") {
@@ -123,9 +137,6 @@ domReady(function(){
       var change = changes[0]
       var index = change.name
       var piece = change.object[index]
-      if (typeof(pieceMap[piece]) == 'undefined') {
-        debugger;
-      }
       $('.'+ game_class + ' .' + color + '_spares').append(
           "<div class='spare-piece "+ pieceMap[piece] +" " + color + "'></div>"
         )
@@ -137,4 +148,37 @@ domReady(function(){
   Object.observe(game2.white_spares, makeOnSpareChange('white', 'game2') )
   Object.observe(game1.black_spares, makeOnSpareChange('black', 'game1') )
   Object.observe(game2.black_spares, makeOnSpareChange('black', 'game2') )
+  function makeDropFunction(game, board){
+    return function(event, ui) {
+      var piece
+      event.originalEvent.target.classList.forEach(function(klass){
+        if (pieceName = invertPieceMap[klass]) {
+          piece = pieceName
+        }
+      })
+      var pieceLocation = this.classList[1]
+      var pieceObject = {}
+      game.put({ type: piece, color: game.turn() }, pieceLocation)
+      pieceObject[pieceLocation] = {color: getColor(game.turn()), role: pieceMap[piece]}
+      board.setPieces(pieceObject)
+      console.log(pieceLocation)
+      console.log(pieceObject, event)
+      nextColor = game.turn() === 'w' ? 'b' : 'w'
+      set_turn(game, nextColor)
+      board.set({turnColor: getColor(nextColor),
+                movable: { color: getColor(nextColor),
+                dests: chessToDests(game)
+                }
+             })
+      ui.draggable.remove()
+    }
+  }
+
+  $(".game1 .cg-square" ).droppable({
+    drop:makeDropFunction(game1, board1)
+  });
+  $(".game2 .cg-square" ).droppable({
+    drop:makeDropFunction(game2, board2)
+  });
+
 });
